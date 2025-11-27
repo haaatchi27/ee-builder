@@ -16,6 +16,7 @@ podman build -t ${FULL_NAME}:latest -t ${FULL_NAME}:$TAG . || exit
 
 
 if [ "${RESISTRY}" == "resistry" ]; then
+    podman login ${RESISTER_NAME}
     podman push ${FULL_NAME}:$TAG || exit
     podman push ${FULL_NAME}:latest || exit
 fi
