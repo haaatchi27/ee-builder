@@ -1,9 +1,12 @@
-FROM quay.io/ansible/awx-ee:latest
+FROM docker.io/library/ubuntu
 
 # 必要なネットワークモジュールを追加
 USER root
 # 必要なPythonライブラリを追加
-RUN pip install \
+
+RUN apt update && apt install -y -qq python3-pip
+
+RUN pip install --break-system-packages \
     netmiko \
     paramiko \
     scrapli \
