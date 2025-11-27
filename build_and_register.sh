@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-RESISTER_NAME="192.168.1.8"
+RESISTER_NAME="harbor.local"
 RESISTRY_NAME="library"
 BUILD_NAME="$(basename "$PWD")"
 FULL_NAME="${RESISTER_NAME}/${RESISTRY_NAME}/${BUILD_NAME}"
@@ -10,7 +10,6 @@ TAG=$(TZ="Asia/Tokyo" date "+%Y%m%d.%H%M%S")
 RESISTRY="resistry" # RESISTRY : resistry or microk8s
 
 # build image.
-# cd /home/hatchi/dockers/build-awx-ee-with-cisco.ios
 cd $(dirname $0)
 
 podman build -t ${FULL_NAME}:latest -t ${FULL_NAME}:$TAG . || exit
@@ -21,7 +20,7 @@ if [ "${RESISTRY}" == "resistry" ]; then
     podman push ${FULL_NAME}:latest || exit
 fi
 
-if [ "${RESISTRY}" == "resistry" ]; then
+if [ "${RESISTRY}" == "microk8s" ]; then
     # import image from podman to microk8s.
     podman save -o awx-ee-with-cisco.tar ${FULL_NAME}:latest || exit
     sudo microk8s ctr image import awx-ee-with-cisco.tar || exit
